@@ -1,0 +1,9 @@
+{
+  "seed": 42,
+  "ledger_entries": 107143,
+  "payouts": 57143,
+  "bank_deposits": 49999,
+  "allocated_deposits": 14286,
+  "unallocated_deposits": 35713,
+  "reconcile_seconds": 0.7114
+}

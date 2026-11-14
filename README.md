@@ -31,3 +31,9 @@ python3 review.py examples/ledger.csv examples/bank.csv workpaper.html
 ```
 
 Open the resulting HTML file in a browser. Toggle **Show only exceptions** and expand a payout to inspect its source entry IDs, candidate deposits, dates, and amounts. The workpaper runs offline. Its per-currency control totals tie expected payouts to matched and open ledger amounts, and bank deposits to matched and unallocated bank amounts. A balanced control total can still contain unresolved exceptions.
+
+## Replay a larger synthetic close
+
+`python3 stress.py --groups 50000 --seed 42` builds two shuffled CSV exports, runs the normal file-based reconciler, and checks every candidate ID and status against the generator's labels. The seven scenarios include repeated references, equal-amount competitors, wrong-currency references and short settlements. It also checks allocation uniqueness and both currency controls.
+
+The [recorded run](measurements/close-50000.json) processed 107,143 ledger entries across 57,143 payouts against 49,999 deposits. The 0.71-second timing covers reconciliation on the development machine and excludes fixture generation and verification. Base group amounts are unique except for intentionally injected competitors. A bank export with many repeated amounts can have substantially more candidates.
