@@ -101,7 +101,21 @@ def reconcile(ledger_path, bank_path, days=3):
                             candidates=[dict(deposit_id=d, amount_cents=deposits[d]['amount'],
                                              currency=deposits[d]['currency'], date=deposits[d]['date'].isoformat())
                                         for d in ids]))
-    return dict(payouts=results, unallocated_deposits=sorted(set(deposits) - used))
+    controls = defaultdict(lambda: dict(ledger_cents=0, bank_cents=0, matched_cents=0,
+                                       open_ledger_cents=0, unallocated_bank_cents=0))
+    for row in results:
+        control = controls[row['currency']]
+        amount = row['expected_cents']
+        control['ledger_cents'] += amount
+        field = 'matched_cents' if row['status'].startswith('matched_') else 'open_ledger_cents'
+        control[field] += amount
+    for deposit_id, deposit in deposits.items():
+        control = controls[deposit['currency']]
+        control['bank_cents'] += deposit['amount']
+        if deposit_id not in used:
+            control['unallocated_bank_cents'] += deposit['amount']
+    return dict(payouts=results, unallocated_deposits=sorted(set(deposits) - used),
+                controls_by_currency=dict(sorted(controls.items())))
 
 
 def main():

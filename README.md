@@ -23,3 +23,11 @@ Payout `po_1` settles at $86.80 after a $3.20 fee and a $10 refund. Its bank ref
 Use the example CSV headers for your own exports. Dates are ISO calendar dates. Amounts use signed decimal strings and a two-decimal minor unit. Split deposits, FX conversion, and currencies with a different minor unit require a different matching policy. No bank credentials are used.
 
 For batch jobs, add `--strict`. A clean report exits 0, open exceptions exit 1, and invalid input exits 2.
+
+## Review exceptions with operations
+
+```sh
+python3 review.py examples/ledger.csv examples/bank.csv workpaper.html
+```
+
+Open the resulting HTML file in a browser. Toggle **Show only exceptions** and expand a payout to inspect its source entry IDs, candidate deposits, dates, and amounts. The workpaper runs offline. Its per-currency control totals tie expected payouts to matched and open ledger amounts, and bank deposits to matched and unallocated bank amounts. A balanced control total can still contain unresolved exceptions.
