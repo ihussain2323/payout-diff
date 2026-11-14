@@ -1,0 +1,5 @@
+deposit_id,reference,currency,date,amount
+dep_a,po_1,USD,2025-02-04,86.80
+dep_b,,USD,2025-02-05,23.50
+dep_c,,USD,2025-02-06,45.00
+dep_d,po_5,EUR,2025-02-07,39.99
